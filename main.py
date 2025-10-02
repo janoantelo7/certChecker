@@ -1,7 +1,8 @@
 from certificate import Certifiacate
+import sys
 
 def main():
-    hostname = 'www.example.com'  
+    hostname = 'www.python.org'  
     cert = Certifiacate(hostname)
     try:
         days_left = cert.days_until_expiration()
@@ -16,7 +17,7 @@ def main():
         
     except Exception as e:
         print(f"Error retrieving certificate: {hostname}\n{e}")
-        return -1
+        return sys.exit(1)
 
 if __name__ == "__main__":
     main()
