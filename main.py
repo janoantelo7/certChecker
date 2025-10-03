@@ -1,5 +1,5 @@
 from certificate import Certifiacate
-import sys
+
 
 def main():
     hostname = 'www.python.org'  
