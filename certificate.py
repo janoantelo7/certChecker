@@ -13,8 +13,7 @@ class Certificate:
                 with self.context.wrap_socket(sock, server_hostname=self.hostname) as ssock:
                     self.cert = ssock.getpeercert()
         except Exception as e:
-            print(f"Error retrieving certificate for {self.hostname}: {e}")
-            sys.exit(1)            
+            raise ConnectionError(f"Could not retrieve certificate for {self.hostname}: {e}")
 
     def get_expiry_date(self):
         expiry_date = datetime.datetime.strptime(self.cert['notAfter'], '%b %d %H:%M:%S %Y %Z')
