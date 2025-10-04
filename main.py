@@ -1,5 +1,6 @@
 from certificate import Certificate
 import argparse
+import sys
 
 def check_certificate_expiry(hostname):
     cert = Certificate(hostname)
@@ -17,14 +18,25 @@ def check_certificate_expiry(hostname):
 def main():
     parser = argparse.ArgumentParser(description='Check SSL certificate expiry for a given hostname.')
     parser.add_argument("-H", "--hostname", dest="hostname",type=str, help="Domain name to check the SSL certificate for.", required=False)
+    parser.add_argument("-f", "--file", dest="file", type=str, help="File containing a list of domain names to check.", required=False)
+
     args = parser.parse_args()
 
     if args.hostname:
         hostname = args.hostname
+        check_certificate_expiry(hostname)
+    elif args.file:
+        try: 
+            with open(args.file, 'r') as f:
+                for line in f:
+                    hostname = line.strip()
+                    check_certificate_expiry(hostname)
+        except FileNotFoundError:
+            print(f"Error: The file '{args.file}' was not found.")
+            sys.exit(1)
     else:
-        hostname = input("Enter the domain name to check the SSL certificate for: ")
-
-    check_certificate_expiry(hostname)
+        hostname = input("Enter the domain name to check the SSL certificate for: ").strip()
+        check_certificate_expiry(hostname)
 
 if __name__ == "__main__":
     main()
