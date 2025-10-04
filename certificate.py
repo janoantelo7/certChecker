@@ -3,7 +3,7 @@ import socket
 import datetime
 import sys
 
-class Certifiacate:
+class Certificate:
     def __init__(self, hostname):
         self.hostname = hostname
         self.context = ssl.create_default_context()
@@ -23,4 +23,3 @@ class Certifiacate:
     def days_until_expiration(self):
         expiry_date = self.get_expiry_date()
         return (expiry_date - datetime.datetime.now()).days
-
