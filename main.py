@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 def check_certificate_expiry(hostname):
     if not hostname:

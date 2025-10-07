@@ -8,7 +8,7 @@ class Certificate:
         self.context = ssl.create_default_context()
 
         try:
-            with socket.create_connection((self.hostname, 443)) as sock:
+            with socket.create_connection((self.hostname, 443), timeout=5) as sock:
                 with self.context.wrap_socket(sock, server_hostname=self.hostname) as ssock:
                     self.cert = ssock.getpeercert()
         except Exception as e:
