@@ -7,16 +7,16 @@ __version__ = "0.1.0"
 def check_certificate_expiry(hostname):
     try:
         cert = Certificate(hostname)
+        expiry_date = cert.get_expiry_date()
+        days_left = cert.days_until_expiration()
     except ConnectionError as e:
         print(f"Error: {e}", file=sys.stderr)
         return
-    
-    days_left = cert.days_until_expiration()
-    
+        
     if days_left <= 0:
-        print(f"The certificate for {hostname} has already expired.")
+        print(f"The certificate for {hostname} has already expired. (Expired on {expiry_date})")
     elif days_left <= 30:
-        print(f"Warning: The certificate for {hostname} expires in {days_left} days!")
+        print(f"Warning: The certificate for {hostname} expires in {days_left} days! (Expiry date: {expiry_date})")
     else:
         print(f"The certificate for {hostname} is valid for another {days_left} days.")
         print(f"Certificate expiry date: {cert.get_expiry_date()}")
