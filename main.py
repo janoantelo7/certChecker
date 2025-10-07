@@ -2,9 +2,13 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 def check_certificate_expiry(hostname):
+    if not hostname:
+        print("Error: No hostname provided.", file=sys.stderr)
+        return
+
     try:
         cert = Certificate(hostname)
         expiry_date = cert.get_expiry_date()
@@ -34,11 +38,13 @@ def main():
         try: 
             with open(args.file, 'r') as f:
                 for line in f:
-                    hostname = line.strip()
-                    check_certificate_expiry(hostname)
+                    if not line.strip():
+                        continue
+
+                    check_certificate_expiry(line.strip())
         except FileNotFoundError:
             print(f"Error: The file '{args.file}' was not found.", file=sys.stderr)
-            sys.exit(1)
+            sys.exit(1)  
     else:
         hostname = input("Enter the domain name to check the SSL certificate for: ").strip()
         check_certificate_expiry(hostname)
