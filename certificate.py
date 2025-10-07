@@ -16,8 +16,13 @@ class Certificate:
             raise ConnectionError(f"Could not retrieve certificate for {self.hostname}: {e}")
 
     def get_expiry_date(self):
-        expiry_date = datetime.datetime.strptime(self.cert['notAfter'], '%b %d %H:%M:%S %Y %Z')
-        return expiry_date
+        try:
+            expiry_date_str = self.cert.get('notAfter')
+            if not expiry_date_str:
+                raise ValueError("Expiry date not found in certificate.")
+            return datetime.datetime.strptime(expiry_date_str, '%b %d %H:%M:%S %Y %Z')
+        except (ValueError, KeyError) as e:
+            raise ValueError(f"Could not parse expiry date for {self.hostname}: {e}")
     
     def days_until_expiration(self):
         expiry_date = self.get_expiry_date()

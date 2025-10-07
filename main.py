@@ -9,8 +9,8 @@ def check_certificate_expiry(hostname):
         cert = Certificate(hostname)
         expiry_date = cert.get_expiry_date()
         days_left = cert.days_until_expiration()
-    except ConnectionError as e:
-        print(f"Error: {e}", file=sys.stderr)
+    except (ConnectionError, ValueError) as e:
+        print(f"Error checking certificate for {hostname}: {e}", file=sys.stderr)
         return
         
     if days_left <= 0:
