@@ -14,7 +14,7 @@ class Certificate:
         except Exception as e:
             raise ConnectionError(f"Could not retrieve certificate for {self.hostname}: {e}")
 
-    def get_expiry_date(self):
+    def expiry_date(self):
         try:
             expiry_date_str = self.cert.get('notAfter')
             if not expiry_date_str:
@@ -24,5 +24,5 @@ class Certificate:
             raise ValueError(f"Could not parse expiry date for {self.hostname}: {e}")
     
     def days_until_expiration(self):
-        expiry_date = self.get_expiry_date()
+        expiry_date = self.expiry_date()
         return (expiry_date - datetime.datetime.now()).days

@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.1.5"
+__version__ = "0.2.0"
 
 def check_certificate_expiry(hostname):
     if not hostname:
@@ -11,7 +11,7 @@ def check_certificate_expiry(hostname):
 
     try:
         cert = Certificate(hostname)
-        expiry_date = cert.get_expiry_date()
+        expiry_date = cert.expiry_date()
         days_left = cert.days_until_expiration()
     except (ConnectionError, ValueError) as e:
         print(f"Error checking certificate for {hostname}: {e}", file=sys.stderr)
