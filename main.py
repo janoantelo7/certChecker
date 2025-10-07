@@ -9,6 +9,8 @@ def check_certificate_expiry(hostname):
         print("Error: No hostname provided.", file=sys.stderr)
         return
 
+    print(f"--> Checking host: {hostname}")
+
     try:
         cert = Certificate(hostname)
         expiry_date = cert.expiry_date()
@@ -16,8 +18,6 @@ def check_certificate_expiry(hostname):
     except (ConnectionError, ValueError) as e:
         print(f"Error checking certificate for {hostname}: {e}", file=sys.stderr)
         return
-    
-    print(f"--> Checking host: {hostname}")
     
     if days_left <= 0:
         status_message = f"The certificate has already expired. (Expired on {expiry_date})"
