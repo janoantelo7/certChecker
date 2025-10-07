@@ -1,7 +1,6 @@
 import ssl
 import socket
 import datetime
-import sys
 
 class Certificate:
     def __init__(self, hostname):
