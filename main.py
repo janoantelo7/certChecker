@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 def check_certificate_expiry(hostname):
     if not hostname:
@@ -16,13 +16,16 @@ def check_certificate_expiry(hostname):
     except (ConnectionError, ValueError) as e:
         print(f"Error checking certificate for {hostname}: {e}", file=sys.stderr)
         return
-        
+    
+    print(f"--> Checking host: {hostname}")
+    
     if days_left <= 0:
-        print(f"The certificate for {hostname} has already expired. (Expired on {expiry_date})")
+        status_message = f"The certificate has already expired. (Expired on {expiry_date})"
     elif days_left <= 30:
-        print(f"Warning: The certificate for {hostname} expires in {days_left} days! (Expiry date: {expiry_date})")
+        status_message = f"Warning: The certificate expires in {days_left} days! (Expiry date: {expiry_date})"
     else:
-        print(f"The certificate for {hostname} is valid for another {days_left} days. (Expiry date: {expiry_date})")
+        status_message = f"The certificate is valid for another {days_left} days. (Expiry date: {expiry_date})"
+    print(status_message)
 
 def main():
     parser = argparse.ArgumentParser(description='Check SSL certificate expiry for a given hostname.')
