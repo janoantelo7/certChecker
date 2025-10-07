@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.1.0"
+__version__ = "0.1.3"
 
 def check_certificate_expiry(hostname):
     try:
@@ -18,8 +18,7 @@ def check_certificate_expiry(hostname):
     elif days_left <= 30:
         print(f"Warning: The certificate for {hostname} expires in {days_left} days! (Expiry date: {expiry_date})")
     else:
-        print(f"The certificate for {hostname} is valid for another {days_left} days.")
-        print(f"Certificate expiry date: {cert.get_expiry_date()}")
+        print(f"The certificate for {hostname} is valid for another {days_left} days. (Expiry date: {expiry_date})")
 
 def main():
     parser = argparse.ArgumentParser(description='Check SSL certificate expiry for a given hostname.')
