@@ -31,3 +31,16 @@ class Certificate:
     def days_until_expiration(self):
         expiry_date = self.expiry_date()
         return (expiry_date - datetime.datetime.now()).days
+
+    def get_expiry_status(self):
+        try:
+            days_left = self.days_until_expiration()
+            expiry_date = self.expiry_date().strftime('%Y-%m-%d')
+
+            if days_left <= 0:
+                return f"Status: EXPIRED on {expiry_date}"
+            elif days_left <= 30:
+                return f"Status: WARNING - Expires in {days_left} days (on {expiry_date})"
+            return f"Status: OK - Valid for {days_left} more days (expires on {expiry_date})"
+        except ValueError as e:
+            return f"Status: ERROR - Could not determine expiry status: {e}"

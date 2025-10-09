@@ -2,29 +2,16 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.3.3"
-
-def check_certificate_expiry(cert):
-    expiry_date = cert.expiry_date()
-    days_left = cert.days_until_expiration()
-    
-    if days_left <= 0:
-        status_message = f"Status: EXPIRED on {expiry_date}"
-    elif days_left <= 30:
-        status_message = f"Status: WARNING - Expires in {days_left} days (on {expiry_date})"
-    else:
-        status_message = f"Status: OK - Valid for {days_left} more days (expires on {expiry_date})"
-    print(status_message)
+__version__ = "0.4.0"
 
 def process_hostname(hostname):
-        
         if not hostname:
             print("Error: No hostname provided.", file=sys.stderr)
             return
         try:
             cert = Certificate(hostname)
             print(f"--> Checking certificate for {hostname}")
-            check_certificate_expiry(cert)
+            print(cert.get_expiry_status())
         except (ConnectionError, ValueError) as e:
             print(f"Error checking certificate for {hostname}: {e}", file=sys.stderr)
             return
