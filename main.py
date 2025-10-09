@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 def check_certificate_expiry(cert):
     expiry_date = cert.expiry_date()
@@ -31,7 +31,7 @@ def process_hostname(hostname):
 
 def main():
     parser = argparse.ArgumentParser(description='Check SSL certificate expiry for a given hostname.')
-    parser.add_argument('-v', '--version', action='version', version=f'%(prog)s {__version__}')
+    parser.add_argument('-V', '--version', action='version', version=f'%(prog)s {__version__}')
     parser.add_argument("-H", "--hostname", dest="hostname",type=str, help="Domain name to check the SSL certificate for", required=False)
     parser.add_argument("-f", "--file", dest="file", type=str, help="File containing a list of domain names to check", required=False)
 
