@@ -24,7 +24,7 @@ class Certificate:
     
             if not expiry_date_str:
                 raise ValueError("Expiry date not found in certificate.")
-            return datetime.datetime.strptime(expiry_date_str, '%b %d %H:%M:%S %Y %Z')
+            return datetime.datetime.strptime(str(expiry_date_str), '%b %d %H:%M:%S %Y %Z')
         except (ValueError, KeyError) as e:
             raise ValueError(f"Could not parse expiry date for {self.hostname}: {e}")
     
