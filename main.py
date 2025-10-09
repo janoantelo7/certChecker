@@ -2,18 +2,18 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 def check_certificate_expiry(cert):
     expiry_date = cert.expiry_date()
     days_left = cert.days_until_expiration()
     
     if days_left <= 0:
-        status_message = f"The certificate has already expired. (Expired on {expiry_date})"
+        status_message = f"Status: EXPIRED on {expiry_date}"
     elif days_left <= 30:
-        status_message = f"Warning: The certificate expires in {days_left} days! (Expiry date: {expiry_date})"
+        status_message = f"Status: WARNING - Expires in {days_left} days (on {expiry_date})"
     else:
-        status_message = f"The certificate is valid for another {days_left} days. (Expiry date: {expiry_date})"
+        status_message = f"Status: OK - Valid for {days_left} more days (expires on {expiry_date})"
     print(status_message)
 
 def process_hostname(hostname):
