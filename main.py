@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 
 def process_hostname(hostname):
         if not hostname:
@@ -19,8 +19,10 @@ def process_hostname(hostname):
 def main():
     parser = argparse.ArgumentParser(description='Check the SSL certificate for a domain name.', prog='certChecker')
     parser.add_argument('-V', '--version', action='version', version=f'%(prog)s {__version__}')
-    parser.add_argument("-H", "--hostname", dest="hostname",type=str, help="Domain name to check the SSL certificate for", required=False)
-    parser.add_argument("-f", "--file", dest="file", type=str, help="File containing a list of domain names to check", required=False)
+    
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-H", "--hostname", dest="hostname",type=str, help="Domain name to check the SSL certificate for")
+    group.add_argument("-f", "--file", dest="file", type=str, help="File containing a list of domain names to check")
 
     args = parser.parse_args()
 
