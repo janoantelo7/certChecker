@@ -30,7 +30,7 @@ def process_hostname(hostname):
             return
 
 def main():
-    parser = argparse.ArgumentParser(description='Check SSL certificate expiry for a given hostname.', prog='certChecker')
+    parser = argparse.ArgumentParser(description='Check the SSL certificate for a domain name.', prog='certChecker')
     parser.add_argument('-V', '--version', action='version', version=f'%(prog)s {__version__}')
     parser.add_argument("-H", "--hostname", dest="hostname",type=str, help="Domain name to check the SSL certificate for", required=False)
     parser.add_argument("-f", "--file", dest="file", type=str, help="File containing a list of domain names to check", required=False)
