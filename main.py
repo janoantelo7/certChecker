@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 
 def process_hostname(hostname):
         if not hostname:
@@ -37,7 +37,7 @@ def main():
                         continue
 
                     process_hostname(line.strip())
-                    print("--"*40)
+                    print("--"*30)
         except FileNotFoundError:
             print(f"Error: The file '{args.file}' was not found.", file=sys.stderr)
             sys.exit(1)  
