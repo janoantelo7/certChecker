@@ -2,22 +2,11 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.2.2"
+__version__ = "0.3.0"
 
-def check_certificate_expiry(hostname):
-    if not hostname:
-        print("Error: No hostname provided.", file=sys.stderr)
-        return
-
-    print(f"--> Checking host: {hostname}")
-
-    try:
-        cert = Certificate(hostname)
-        expiry_date = cert.expiry_date()
-        days_left = cert.days_until_expiration()
-    except (ConnectionError, ValueError) as e:
-        print(f"Error checking certificate for {hostname}: {e}", file=sys.stderr)
-        return
+def check_certificate_expiry(cert):
+    expiry_date = cert.expiry_date()
+    days_left = cert.days_until_expiration()
     
     if days_left <= 0:
         status_message = f"The certificate has already expired. (Expired on {expiry_date})"
@@ -26,6 +15,19 @@ def check_certificate_expiry(hostname):
     else:
         status_message = f"The certificate is valid for another {days_left} days. (Expiry date: {expiry_date})"
     print(status_message)
+
+def process_hostname(hostname):
+        
+        if not hostname:
+            print("Error: No hostname provided.", file=sys.stderr)
+            return
+        try:
+            cert = Certificate(hostname)
+            print(f"--> Checking certificate for {hostname}")
+            check_certificate_expiry(cert)
+        except (ConnectionError, ValueError) as e:
+            print(f"Error checking certificate for {hostname}: {e}", file=sys.stderr)
+            return
 
 def main():
     parser = argparse.ArgumentParser(description='Check SSL certificate expiry for a given hostname.')
@@ -36,21 +38,23 @@ def main():
     args = parser.parse_args()
 
     if args.hostname:
-        check_certificate_expiry(args.hostname)
+        process_hostname(args.hostname)
     elif args.file:
         try: 
             with open(args.file, 'r') as f:
                 for line in f:
                     if not line.strip():
+                        # Skip empty lines
                         continue
 
-                    check_certificate_expiry(line.strip())
+                    process_hostname(line.strip())
+                    print("--"*40)
         except FileNotFoundError:
             print(f"Error: The file '{args.file}' was not found.", file=sys.stderr)
             sys.exit(1)  
     else:
         hostname = input("Enter the domain name to check the SSL certificate for: ").strip()
-        check_certificate_expiry(hostname)
+        process_hostname(hostname)
 
 if __name__ == "__main__":
     main()
