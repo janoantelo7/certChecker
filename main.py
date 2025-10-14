@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
 
 def process_hostname(hostname, expiring_soon=False):        
         if not hostname:
@@ -10,6 +10,11 @@ def process_hostname(hostname, expiring_soon=False):
             return
         try:
             cert = Certificate(hostname)
+            
+            # check if expiring_soon is set and if the certificate is not expiring soon, skip output
+            if expiring_soon and not cert.is_expiring_soon():
+                return
+            
             print(f"--> Checking certificate for {hostname}")
             print(cert.get_expiry_status())
         except (ConnectionError, ValueError) as e:

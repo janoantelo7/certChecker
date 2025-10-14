@@ -44,3 +44,12 @@ class Certificate:
             return f"Status: OK - Valid for {days_left} more days (expires on {expiry_date})"
         except ValueError as e:
             return f"Status: ERROR - Could not determine expiry status: {e}"
+
+    def is_expiring_soon(self, days_threshold=30):
+        """Checks if the certificate is expired or expiring within the threshold."""
+        try:
+            days_left = self.days_until_expiration()
+            return days_left <= days_threshold
+        except ValueError:
+            # If we can't determine the days left, treat it as an issue to be reported.
+            return True
