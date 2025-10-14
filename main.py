@@ -9,7 +9,6 @@ def process_hostname(hostname, expiring_soon=False):
             print("Error: No hostname provided.", file=sys.stderr)
             return
         
-        
         try:
             cert = Certificate(hostname)
             

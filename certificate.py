@@ -16,6 +16,7 @@ class Certificate:
             raise ConnectionError(f"Could not retrieve certificate for {self.hostname}: {e}")
 
     def expiry_date(self):
+        #Returns the expiry date of the certificate as a datetime object.
         try:
             if self.cert is None:
                 raise ValueError("Certificate data is not available.")
@@ -29,10 +30,12 @@ class Certificate:
             raise ValueError(f"Could not parse expiry date for {self.hostname}: {e}")
     
     def days_until_expiration(self):
+        #Returns the number of days until the certificate expires.
         expiry_date = self.expiry_date()
         return (expiry_date - datetime.datetime.now()).days
 
     def get_expiry_status(self):
+        #Returns a string indicating the expiry status of the certificate.
         try:
             days_left = self.days_until_expiration()
             expiry_date = self.expiry_date().strftime('%Y-%m-%d')
@@ -46,7 +49,7 @@ class Certificate:
             return f"Status: ERROR - Could not determine expiry status: {e}"
 
     def is_expiring_soon(self, days_threshold=30):
-        """Checks if the certificate is expired or expiring within the threshold."""
+        #Checks if the certificate is expired or expiring within the threshold.
         try:
             days_left = self.days_until_expiration()
             return days_left <= days_threshold
