@@ -2,25 +2,29 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.5.2"
+__version__ = "0.5.3"
 
 def process_hostname(hostname, expiring_soon=False):        
         if not hostname:
             print("Error: No hostname provided.", file=sys.stderr)
             return
         
-        print(f"--> Checking certificate for {hostname}")
+        
         try:
             cert = Certificate(hostname)
             
             # check if expiring_soon is set and if the certificate is not expiring soon, skip output
             if expiring_soon and not cert.is_expiring_soon():
-                return
-
+                return False
+            
+            print(f"--> Checking certificate for {hostname}")
             print(cert.get_expiry_status())
+
+            return True
         except (ConnectionError, ValueError) as e:
+            print(f"--> Checking certificate for {hostname}")
             print(f"Error checking certificate for {hostname}: {e}", file=sys.stderr)
-            return
+            return True
 
 def main():
     parser = argparse.ArgumentParser(description='Check the SSL certificate for a domain name.', prog='certChecker')
@@ -43,8 +47,12 @@ def main():
                         # Skip empty lines
                         continue
 
-                    process_hostname(line.strip(), expiring_soon=args.expiring_soon)
-                    print("--"*30)
+                    output = process_hostname(line.strip(), expiring_soon=args.expiring_soon)
+                    
+                    # Print separator only if there was output for the previous hostname
+                    if output:
+                        print("--"*30)
+
         except FileNotFoundError:
             print(f"Error: The file '{args.file}' was not found.", file=sys.stderr)
             sys.exit(1)  
