@@ -2,9 +2,9 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.4.2"
+__version__ = "0.5.0"
 
-def process_hostname(hostname):
+def process_hostname(hostname, expiring_soon=False):        
         if not hostname:
             print("Error: No hostname provided.", file=sys.stderr)
             return
@@ -19,7 +19,8 @@ def process_hostname(hostname):
 def main():
     parser = argparse.ArgumentParser(description='Check the SSL certificate for a domain name.', prog='certChecker')
     parser.add_argument('-V', '--version', action='version', version=f'%(prog)s {__version__}')
-    
+    parser.add_argument('--expiring-soon', dest='expiring_soon',action='store_true', help='Show only certificates that are expiring within 30 days or are already expired')
+
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-H", "--hostname", dest="hostname",type=str, help="Domain name to check the SSL certificate for")
     group.add_argument("-f", "--file", dest="file", type=str, help="File containing a list of domain names to check")
@@ -27,7 +28,7 @@ def main():
     args = parser.parse_args()
 
     if args.hostname:
-        process_hostname(args.hostname)
+        process_hostname(args.hostname, expiring_soon=args.expiring_soon)
     elif args.file:
         try: 
             with open(args.file, 'r') as f:
@@ -36,7 +37,7 @@ def main():
                         # Skip empty lines
                         continue
 
-                    process_hostname(line.strip())
+                    process_hostname(line.strip(), expiring_soon=args.expiring_soon)
                     print("--"*30)
         except FileNotFoundError:
             print(f"Error: The file '{args.file}' was not found.", file=sys.stderr)
