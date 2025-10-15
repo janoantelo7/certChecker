@@ -2,7 +2,7 @@ from certificate import Certificate
 import argparse
 import sys
 
-__version__ = "0.5.3"
+__version__ = "0.5.4"
 
 def process_hostname(hostname, expiring_soon=False):        
         if not hostname:
