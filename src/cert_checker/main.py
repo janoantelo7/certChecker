@@ -63,11 +63,14 @@ def main():
         try: 
             with open(args.file, 'r') as f:
                 for line in f:
-                    if not line.strip():
+
+                    hostname = line.strip()
+
+                    if not hostname:
                         # Skip empty lines
                         continue
 
-                    output = process_hostname(line.strip(), expiring_soon=args.expiring_soon)
+                    output = process_hostname(hostname, expiring_soon=args.expiring_soon)
                     
                     # Print separator only if there was output for the previous hostname
                     if output:

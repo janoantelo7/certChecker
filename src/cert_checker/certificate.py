@@ -2,6 +2,8 @@ import ssl
 import socket
 import datetime
 
+EXPIRING_DAYS_THRESHOLD = 30
+
 class Certificate:
     def __init__(self, hostname):
         self.hostname = hostname
@@ -42,13 +44,13 @@ class Certificate:
 
             if days_left <= 0:
                 return f"Status: EXPIRED on {expiry_date}"
-            elif days_left <= 30:
+            elif days_left <= EXPIRING_DAYS_THRESHOLD:
                 return f"Status: WARNING - Expires in {days_left} days (on {expiry_date})"
             return f"Status: OK - Valid for {days_left} more days (expires on {expiry_date})"
         except ValueError as e:
             return f"Status: ERROR - Could not determine expiry status: {e}"
 
-    def is_expiring_soon(self, days_threshold=30):
+    def is_expiring_soon(self, days_threshold=EXPIRING_DAYS_THRESHOLD):
         #Checks if the certificate is expired or expiring within the threshold.
         try:
             days_left = self.days_until_expiration()
