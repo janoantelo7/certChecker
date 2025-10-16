@@ -14,10 +14,10 @@ authors = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/janoantelo7/certChecker"
-Repository = "https://github.com/janoantelo7/certChecker.git"
-Documentation = "https://github.com/janoantelo7/certChecker#readme"
-Issues = "https://github.com/janoantelo7/certChecker/issues"
+Homepage = "https://github.com/janoantelo7/ssl-sentinel"
+Repository = "https://github.com/janoantelo7/ssl-sentinel.git"
+Documentation = "https://github.com/janoantelo7/ssl-sentinel#readme"
+Issues = "https://github.com/janoantelo7/ssl-sentinel/issues"
 
 [project.scripts]
 ssl-sentinel = "ssl_sentinel.main:main"
