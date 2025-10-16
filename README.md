@@ -12,8 +12,6 @@ pip install ssl-sentinel
 
 ## Usage
 
-Once installed, the `ssl-sentinel` command will be available in your terminal.
-
 ### Check a Single Domain
 
 Use the `-H` or `--hostname` flag to check a specific domain.
