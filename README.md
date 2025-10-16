@@ -10,11 +10,6 @@ You can install `ssl-sentinel` directly from PyPI using `pip`.
 pip install ssl-sentinel
 ```
 
-*(Note: If you are installing a test version, you may need to install from TestPyPI)*
-```bash
-pip install -i https://test.pypi.org/simple/ ssl-sentinel
-```
-
 ## Usage
 
 Once installed, the `ssl-sentinel` command will be available in your terminal.
