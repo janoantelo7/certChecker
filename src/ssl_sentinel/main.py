@@ -25,7 +25,7 @@ def process_hostname(hostname, expiring_soon=False):
             return True
 
 def main():
-    parser = argparse.ArgumentParser(description='Check the SSL certificate for a domain name.', prog='certChecker')
+    parser = argparse.ArgumentParser(description='Check the SSL certificate for a domain name.', prog='ssl-sentinel')
     parser.add_argument(
         '-V',
         '--version',
