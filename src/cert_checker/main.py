@@ -26,12 +26,34 @@ def process_hostname(hostname, expiring_soon=False):
 
 def main():
     parser = argparse.ArgumentParser(description='Check the SSL certificate for a domain name.', prog='certChecker')
-    parser.add_argument('-V', '--version', action='version', version=f'%(prog)s {__version__}')
-    parser.add_argument('--expiring-soon', dest='expiring_soon',action='store_true', help='Show only certificates that are expiring within 30 days or are already expired')
+    parser.add_argument(
+        '-V',
+        '--version',
+        action='version',
+        version=f'%(prog)s {__version__}'
+    )
+    parser.add_argument(
+        '--expiring-soon',
+        dest='expiring_soon',
+        action='store_true',
+        help='Show only certificates that are expiring within 30 days or are already expired'
+    )
 
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-H", "--hostname", dest="hostname",type=str, help="Domain name to check the SSL certificate for")
-    group.add_argument("-f", "--file", dest="file", type=str, help="File containing a list of domain names to check")
+    group.add_argument(
+        "-H",
+        "--hostname",
+        dest="hostname",
+        type=str,
+        help="Domain name to check the SSL certificate for"
+    )
+    group.add_argument(
+        "-f",
+        "--file",
+        dest="file",
+        type=str,
+        help="File containing a list of domain names to check"
+    )
 
     args = parser.parse_args()
 
