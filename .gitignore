@@ -15,3 +15,7 @@ venv.bak/
 
 # domain list
 domains.txt
+
+# ingnore build artifacts
+build/
+dist/
