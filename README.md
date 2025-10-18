@@ -35,6 +35,12 @@ Add the `--expiring-soon` flag to filter the output and show only certificates t
 ```bash
 ssl-sentinel --file domains.txt --expiring-soon
 ```
+### Changing the Threshold
+
+Add the `-t` flag to change the threshold.
+```bash
+ssl-sentinel --file domains.txt --expiring-soon -t 60
+```
 
 ### Interactive Mode
 

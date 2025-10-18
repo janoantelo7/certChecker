@@ -3,13 +3,13 @@ from .__about__ import __version__
 import argparse
 import sys
 
-def process_hostname(hostname, expiring_soon=False):        
+def process_hostname(hostname, threshold, expiring_soon=False):        
         if not hostname:
             print("Error: No hostname provided.", file=sys.stderr)
             return
         
         try:
-            cert = Certificate(hostname)
+            cert = Certificate(hostname, threshold)
             
             # check if expiring_soon is set and if the certificate is not expiring soon, skip output
             if expiring_soon and not cert.is_expiring_soon():
@@ -39,6 +39,16 @@ def main():
         help='Show only certificates that are expiring within 30 days or are already expired'
     )
 
+    parser.add_argument(
+        '-t',
+        '--threshold',
+        dest='threshold',
+        type=int,
+        default=30,
+        help='Set the number of days to consider a certificate as "expiring soon" (default: 30 days)'
+    )
+
+
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
         "-H",
@@ -58,7 +68,7 @@ def main():
     args = parser.parse_args()
 
     if args.hostname:
-        process_hostname(args.hostname)
+        process_hostname(args.hostname,args.threshold)
     elif args.file:
         try: 
             with open(args.file, 'r') as f:
@@ -70,7 +80,7 @@ def main():
                         # Skip empty lines or commented lines
                         continue
 
-                    output = process_hostname(hostname, expiring_soon=args.expiring_soon)
+                    output = process_hostname(hostname, args.threshold, expiring_soon=args.expiring_soon)
                     
                     # Print separator only if there was output for the previous hostname
                     if output:
@@ -81,7 +91,7 @@ def main():
             sys.exit(1)  
     else:
         hostname = input("Enter the domain name to check the SSL certificate for: ").strip()
-        process_hostname(hostname)
+        process_hostname(hostname, args.threshold)
 
 if __name__ == "__main__":
     main()
