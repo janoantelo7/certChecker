@@ -66,8 +66,8 @@ def main():
 
                     hostname = line.strip()
 
-                    if not hostname:
-                        # Skip empty lines
+                    if not hostname or hostname.startswith('#'):
+                        # Skip empty lines or commented lines
                         continue
 
                     output = process_hostname(hostname, expiring_soon=args.expiring_soon)
