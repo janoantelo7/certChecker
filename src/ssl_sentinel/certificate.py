@@ -27,7 +27,9 @@ class Certificate:
     
             if not expiry_date_str:
                 raise ValueError("Expiry date not found in certificate.")
+            
             return datetime.datetime.strptime(str(expiry_date_str), '%b %d %H:%M:%S %Y %Z')
+        
         except (ValueError, KeyError) as e:
             raise ValueError(f"Could not parse expiry date for {self.hostname}: {e}")
     
@@ -42,11 +44,11 @@ class Certificate:
             days_left = self.days_until_expiration()
             expiry_date = self.expiry_date().strftime('%Y-%m-%d')
 
-            if days_left <= 0:
-                return f"Status: EXPIRED on {expiry_date}"
-            elif days_left <= EXPIRING_DAYS_THRESHOLD:
+            if self.is_expiring_soon():
                 return f"Status: WARNING - Expires in {days_left} days (on {expiry_date})"
+            
             return f"Status: OK - Valid for {days_left} more days (expires on {expiry_date})"
+
         except ValueError as e:
             return f"Status: ERROR - Could not determine expiry status: {e}"
 

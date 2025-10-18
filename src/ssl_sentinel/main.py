@@ -58,7 +58,7 @@ def main():
     args = parser.parse_args()
 
     if args.hostname:
-        process_hostname(args.hostname, expiring_soon=args.expiring_soon)
+        process_hostname(args.hostname)
     elif args.file:
         try: 
             with open(args.file, 'r') as f:
